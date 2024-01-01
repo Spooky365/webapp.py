@@ -1,23 +1,20 @@
-name: Docker Image CI
+name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+   branches: [ master ]
   pull_request:
-    branches: [ "main" ]
-
+    branches: [ master ]
+      
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t skoopy365/webapp.py:0.1.RELEASE .
-    - name: push image to repository  
-      run: docker push skoopy365/webapp.py:0.1.RELEASE
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_TOKEN }}
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "skoopy365" --password-stdin
+        docker image build -t skoopy365/webapp.py:0.1.RELEASE .
+        docker push skoopy/webapp.py:0.1.RELEASE
