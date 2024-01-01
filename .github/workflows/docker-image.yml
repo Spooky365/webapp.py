@@ -17,4 +17,4 @@ jobs:
       run: |
         echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "skoopy365" --password-stdin
         docker image build -t skoopy365/webapp.py:0.1.RELEASE .
-        docker push skoopy/webapp.py:0.1.RELEASE
+        docker push skoopy365/webapp.py:0.1.RELEASE
