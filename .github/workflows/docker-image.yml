@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t skoopy365/webapp:0.1.RELEASE .
+      run: docker build -t skoopy365/webapp.py:0.1.RELEASE .
     - name: push image to repository  
       run: docker push skoopy365/webapp.py:0.1.RELEASE 
 
