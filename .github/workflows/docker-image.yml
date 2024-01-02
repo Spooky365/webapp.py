@@ -13,8 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Build and push Docker image
     - name: Build & Push Image
-      run: |
+        env:
+        IMAGE_TAG: ${{ github.sha }}
+        run: |
         echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "skoopy365" --password-stdin
-        docker image build -t skoopy365/webapp.py:0.1.RELEASE .
-        docker push skoopy365/webapp.py:0.1.RELEASE
+        docker image build -t skoopy365/webapp.py:${IMAGE_TAG} .
+        docker push skoopy365/webapp.py:${IMAGE_TAG}
