@@ -28,5 +28,5 @@ jobs:
       name: webapp-py
 
 # Example of using the output
-- id: test
-  run: curl ${{ steps.update-image.outputs.old-image-tag }}    
+#- id: test
+#  run: curl ${{ steps.update-image.outputs.old-image-tag }}    
