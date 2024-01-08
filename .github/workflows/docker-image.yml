@@ -20,8 +20,8 @@ jobs:
         echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "skoopy365" --password-stdin
         docker image build -t skoopy365/webapp-py:${IMAGE_TAG} .
         docker push skoopy365/webapp-py:${IMAGE_TAG}
-    - id: update-image
     uses: Charlyzzz/update-k8s-image
+    name: update image Tag to ${IMAGE_TAG}
     with:
       manifest-path: argocd/1appdeploytest.yaml
       new-image-tag: ${IMAGE_TAG}
