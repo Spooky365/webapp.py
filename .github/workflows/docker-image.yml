@@ -17,26 +17,25 @@ jobs:
         id: get_version
         run: |
           if [ -e version.txt ]; then
-            echo "VERSION=0.15" >> $GITHUB_ENV
+            current_version=$(cat version.txt)
           else
-            echo "VERSION=0.0" >> $GITHUB_ENV
+            current_version="0.1"
           fi
+          next_version=$(awk "BEGIN {printf \"%.1f\", $current_version + 0.1}")
+          echo "VERSION=$next_version" >> $GITHUB_ENV
+          echo $next_version > version.txt
 
-          #  - name: Increment version
-        #  id: increment_version
-          # run: |
-          #    run: echo "VERSION=$(awk 'BEGIN{print ENVIRON[\"VERSION\"]+0.1}')" >> $GITHUB_ENV
+       - name: Commit changes
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add version.txt
+          git commit -m "Bump version to $next_version"
+          git push origin main
+
       - name: Set IMAGE_TAG variable
         run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
-
-      - name: Update version.txt file
-        run: echo -n "booba" > version.txt
-      - name: Debugging
-        run: |
-          pwd
-          ls -la
-          cat version.txt
-
+          
       - name: Build and push Docker image
         env:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
