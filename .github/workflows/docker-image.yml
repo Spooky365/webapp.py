@@ -25,8 +25,7 @@ jobs:
       - name: Increment version
         id: increment_version
         run: |
-          echo "VERSION=$(awk '{print $1+0.1}' <<< ${{ env.VERSION }})" >> $GITHUB_ENV
-
+          run: echo "VERSION=$(awk 'BEGIN{print ENVIRON[\"VERSION\"]+0.1}')" >> $GITHUB_ENV
       - name: Set IMAGE_TAG variable
         run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
 
