@@ -13,14 +13,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get current version
+        id: get_version
+        run: echo "VERSION=$(awk '/^VERSION=/ {print $2}' version.txt)" >> $GITHUB_ENV || echo "VERSION=0.0" >> $GITHUB_ENV
+
+      - name: Increment version
+        id: increment_version
+        run: echo "VERSION=$(awk '{print $1+0.1}' <<< ${{ env.VERSION }})" >> $GITHUB_ENV
+
       - name: Set IMAGE_TAG variable
-        run: echo "IMAGE_TAG=1" >> $GITHUB_ENV
+        run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
+
+      - name: Update version.txt file
+        run: echo "VERSION=${{ env.VERSION }}" > version.txt
 
       - name: Build and push Docker image
         env:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
         run: |
           docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
-          docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
           docker push skoopy365/webapp-py:${IMAGE_TAG}
-
