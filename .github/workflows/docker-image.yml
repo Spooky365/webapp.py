@@ -30,7 +30,7 @@ jobs:
         run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
 
       - name: Update version.txt file
-        run: echo "booba" > version.txt
+        run: echo -n "booba" > version.txt
 
       - name: Build and push Docker image
         env:
