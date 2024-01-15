@@ -10,37 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Get current version
-        id: get_version
-        run: |
-          if [ -e version.txt ]; then
-            current_version=$(cat version.txt)
-          else
-            current_version="0.1"
-          fi
+    - name: Get current version
+      run: |
+        if [ -e version.txt ]; then
+          current_version=$(cat version.txt)
+        else
+          current_version="0.1"
+        fi
           next_version=$(awk "BEGIN {printf \"%.1f\", $current_version + 0.1}")
           echo "VERSION=$next_version" >> $GITHUB_ENV
           echo $next_version > version.txt
 
-       - name: Commit changes
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-          git add version.txt
-          git commit -m "Bump version to $next_version"
-          git push origin main
+     - name: Commit changes
+       run: |
+         git config user.email "actions@github.com"
+         git config user.name "GitHub Actions"
+         git add version.txt
+         git commit -m "Bump version to $next_version"
+         git push origin main
 
-      - name: Set IMAGE_TAG variable
-        run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
+     - name: Set IMAGE_TAG variable
+       run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
           
-      - name: Build and push Docker image
-        env:
-          IMAGE_TAG: ${{ env.IMAGE_TAG }}
-        run: |
-          docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
-          docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
-          docker push skoopy365/webapp-py:${IMAGE_TAG}
+     - name: Build and push Docker image
+       env:
+         IMAGE_TAG: ${{ env.IMAGE_TAG }}
+       run: |
+         docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
+         docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
+         docker push skoopy365/webapp-py:${IMAGE_TAG}
 
