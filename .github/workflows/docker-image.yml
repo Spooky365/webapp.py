@@ -17,15 +17,15 @@ jobs:
         id: get_version
         run: |
           if [ -e version.txt ]; then
-            echo "VERSION=$(awk '/^VERSION=/ {print $2}' version.txt)" >> $GITHUB_ENV
+            echo "VERSION=0.1" >> $GITHUB_ENV
           else
             echo "VERSION=0.0" >> $GITHUB_ENV
           fi
 
-      - name: Increment version
-        id: increment_version
-        run: |
-          run: echo "VERSION=$(awk 'BEGIN{print ENVIRON[\"VERSION\"]+0.1}')" >> $GITHUB_ENV
+          #  - name: Increment version
+        #  id: increment_version
+          # run: |
+          #    run: echo "VERSION=$(awk 'BEGIN{print ENVIRON[\"VERSION\"]+0.1}')" >> $GITHUB_ENV
       - name: Set IMAGE_TAG variable
         run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
 
