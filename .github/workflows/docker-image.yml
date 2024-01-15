@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
 
     steps:
@@ -21,9 +20,9 @@ jobs:
         else
           current_version="0.1"
         fi
-          next_version=$(awk "BEGIN {printf \"%.1f\", $current_version + 0.1}")
-          echo "VERSION=$next_version" >> $GITHUB_ENV
-          echo $next_version > version.txt
+        next_version=$(awk "BEGIN {printf \"%.1f\", $current_version + 0.1}")
+        echo "VERSION=$next_version" >> $GITHUB_ENV
+        echo $next_version > version.txt
 
     - name: Commit changes
       run: |
@@ -33,14 +32,14 @@ jobs:
         git commit -m "Bump version to $next_version"
         git push origin main
 
-     - name: Set IMAGE_TAG variable
-       run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
-          
-     - name: Build and push Docker image
-       env:
-         IMAGE_TAG: ${{ env.IMAGE_TAG }}
-       run: |
-         docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
-         docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
-         docker push skoopy365/webapp-py:${IMAGE_TAG}
+    - name: Set IMAGE_TAG variable
+      run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
+
+    - name: Build and push Docker image
+      env:
+        IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      run: |
+        docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
+        docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
+        docker push skoopy365/webapp-py:${IMAGE_TAG}
 
