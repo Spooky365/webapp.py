@@ -20,7 +20,7 @@ jobs:
         env:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
         run: |
-          docker build -t your-docker-image:${IMAGE_TAG} .
+          docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
           docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
-          docker push your-docker-image:${IMAGE_TAG}
+          docker push skoopy365/webapp-py:${IMAGE_TAG}
 
