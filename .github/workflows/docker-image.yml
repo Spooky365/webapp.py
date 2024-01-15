@@ -31,6 +31,11 @@ jobs:
 
       - name: Update version.txt file
         run: echo -n "booba" > version.txt
+      - name: Debugging
+        run: |
+          pwd
+          ls -la
+          cat version.txt
 
       - name: Build and push Docker image
         env:
