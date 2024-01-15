@@ -15,11 +15,17 @@ jobs:
 
       - name: Get current version
         id: get_version
-        run: echo "VERSION=$(awk '/^VERSION=/ {print $2}' version.txt)" >> $GITHUB_ENV || echo "VERSION=0.0" >> $GITHUB_ENV
+        run: |
+          if [ -e version.txt ]; then
+            echo "VERSION=$(awk '/^VERSION=/ {print $2}' version.txt)" >> $GITHUB_ENV
+          else
+            echo "VERSION=0.0" >> $GITHUB_ENV
+          fi
 
       - name: Increment version
         id: increment_version
-        run: echo "VERSION=$(awk '{print $1+0.1}' <<< ${{ env.VERSION }})" >> $GITHUB_ENV
+        run: |
+          echo "VERSION=$(awk '{print $1+0.1}' <<< ${{ env.VERSION }})" >> $GITHUB_ENV
 
       - name: Set IMAGE_TAG variable
         run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
@@ -34,3 +40,4 @@ jobs:
           docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
           docker push skoopy365/webapp-py:${IMAGE_TAG}
+
