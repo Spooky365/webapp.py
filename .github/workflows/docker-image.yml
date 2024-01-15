@@ -13,10 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Set IMAGE_TAG variable
+        run: echo "0.1" >> $IMAGE_TAG  
     - name: Build & Push Image
-      env:
+      # env:
         #  IMAGE_TAG: ${{ github.sha }}
-          IMAGE_TAG=0.1 
       run: |
         echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "skoopy365" --password-stdin
         docker image build -t skoopy365/webapp-py:${IMAGE_TAG} .
