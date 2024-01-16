@@ -1,4 +1,4 @@
-#new try
+#test image tag version creation
 name: Build and Push Docker Image
 
 on:
