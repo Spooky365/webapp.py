@@ -36,6 +36,6 @@ jobs:
     - name: Build and push Docker image
       echo "VERSION=${{ env.VERSION }}"
       run: |
-        docker build -t skoopy365/webapp-py:$VERSION .
+        docker build -t skoopy365/webapp-py:${VERSION} .
         docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
-        docker push skoopy365/webapp-py:$VERSION
+        docker push skoopy365/webapp-py:${VERSION}
