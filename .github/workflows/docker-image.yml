@@ -19,9 +19,9 @@ jobs:
         if [ -e version.txt ]; then
           current_version=$(cat version.txt)
         else
-          current_version="0.1"
+          current_version="1.0.1"
         fi
-        next_version=$(awk "BEGIN {printf \"%.1f\", $current_version + 0.1}")
+        next_version=$(awk -F. '{print $1 "." $2 "." $3 + 1}' <<< "$current_version")
         echo "VERSION=$next_version" >> $GITHUB_ENV
         echo $next_version > version.txt
 
@@ -37,10 +37,9 @@ jobs:
       run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
 
     - name: Build and push Docker image
-      #      env:
-        #  IMAGE_TAG: ${{ env.IMAGE_TAG }}
-        # IMAGE_TAG: ${GIT_BRANCH}-${GIT_SHA:0:7}-$(date +%s)
+        env:
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
       run: |
-        docker build -t skoopy365/webapp-py:1.0.0  . # ${IMAGE_TAG} .
+        docker build -t skoopy365/webapp-py:${IMAGE_TAG} .
         docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
-        docker push skoopy365/webapp-py:1.0.0 # ${IMAGE_TAG}
+        docker push skoopy365/webapp-py:${IMAGE_TAG}
