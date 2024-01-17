@@ -41,6 +41,6 @@ jobs:
         #  IMAGE_TAG: ${{ env.IMAGE_TAG }}
         # IMAGE_TAG: ${GIT_BRANCH}-${GIT_SHA:0:7}-$(date +%s)
       run: |
-        docker build -t skoopy365/webapp-py:1.0.0 # ${IMAGE_TAG} .
+        docker build -t skoopy365/webapp-py:1.0.0  . # ${IMAGE_TAG} .
         docker login -u skoopy365 -p ${{ secrets.DOCKER_TOKEN }}
         docker push skoopy365/webapp-py:1.0.0 # ${IMAGE_TAG}
