@@ -37,7 +37,7 @@ jobs:
       run: echo "IMAGE_TAG=${{ env.VERSION }}" >> $GITHUB_ENV
 
     - name: Build and push Docker image
-      env:
+      #      env:
         #  IMAGE_TAG: ${{ env.IMAGE_TAG }}
         # IMAGE_TAG: ${GIT_BRANCH}-${GIT_SHA:0:7}-$(date +%s)
       run: |
