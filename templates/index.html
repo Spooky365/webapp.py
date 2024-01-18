@@ -1,14 +1,37 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}" defer></script>
+    <title>Your Flask App</title>
 </head>
+
 <body>
-    <div><h1>HALLO DEUTSCHLAND</h1></div>
-    <div><h1>DAS Wetter ist sehr gut hier</h1></div>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <div class="container">
+        <header class="header">
+            <h1>Your Flask App</h1>
+        </header>
+
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+
+        <div class="content">
+            <h2>Welcome to the Flask App!</h2>
+            <p>This is a simple example page.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Your Flask App</p>
+    </footer>
 </body>
+
 </html>
+
