@@ -1,9 +1,16 @@
-from flask import Flask
-from views import views
+# app.py
+from flask import Flask, render_template
 
 app = Flask(__name__)
-app.register_blueprint(views, url_prefix="/")
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True, port=8000)
-# comment123
+    app.run(debug=True)
+
